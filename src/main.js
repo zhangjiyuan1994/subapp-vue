@@ -2,26 +2,27 @@ import "./public-path";
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
-import common from "qiankun-vue2-common";
-import Common from "common";
+// import store from "./store";
+import Vuex from "vuex";
+import Antds from "common/src/utils/antds";
+import { zhCN, default as commonInstall } from "common";
 
+import directives from "common/src/directives";
 Vue.config.productionTip = false;
 
-let instance = null;
-// 注册HTTP
-Vue.prototype.$http = Common.http();
-
 // 注册common
-(function usComponent() {
-  Vue.use(Common.Antd);
-  Object.keys(Common.component).forEach(i => {
-    Vue.component(i, Common.component[i]);
-  });
-})();
+Vue.use(Antds);
+Vue.use(Vuex);
+// 使用directives
+Vue.use(directives);
 
+commonInstall.install(Vue);
+
+Vue.prototype.$zhCN = zhCN;
+let instance = null;
 function render(props = {}) {
-  const { container } = props;
+  const { container, store } = props;
+  Vue.observable(store);
   instance = new Vue({
     router,
     store,
@@ -36,7 +37,6 @@ if (!window.__POWERED_BY_QIANKUN__) {
 
 export async function bootstrap() {}
 export async function mount(props) {
-  common.initGlobalState(store, props);
   render(props);
 }
 export async function unmount() {
