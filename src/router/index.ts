@@ -5,10 +5,14 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/welcome",
-    name: "welcome",
-    moduleName: "subapp-monitor",
-    component: () => import("@/views/index.vue"),
+    path: "/",
+    redirect: "/index",
+  },
+  {
+    path: "/index",
+    name: "WELCOME",
+    moduleName: "subapp-3d",
+    component: (): Promise<unknown> => import("@/views/index.vue"),
     meta: {
       cname: "WELCOME",
     },
@@ -18,12 +22,12 @@ const routes = [
 // 处理重复点击同一个路由报错的问题
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch((err) => err);
+  return originalPush.call(this, location).catch((err: any) => err);
 };
 
 const router = new VueRouter({
   base: window.__POWERED_BY_QIANKUN__ ? `${process.env.VUE_APP_BASE_URL}` : "/",
-  isAddAsyncMenuData: false,
+  // isAddAsyncMenuData: false,
   mode: "history",
   routes,
 });

@@ -2,8 +2,7 @@ import "./public-path";
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-// import store from "./store";
-import Vuex from "vuex";
+
 import Antds from "common/src/utils/antds";
 import { zhCN, default as commonInstall } from "common";
 
@@ -12,21 +11,20 @@ Vue.config.productionTip = false;
 
 // 注册common
 Vue.use(Antds);
-Vue.use(Vuex);
 // 使用directives
 Vue.use(directives);
-
+// 使用组件
+Vue.prototype.$zhCN = zhCN;
 commonInstall.install(Vue);
 
-Vue.prototype.$zhCN = zhCN;
-let instance = null;
-function render(props = {}) {
+let instance: any = null;
+function render(props: any = {}) {
   const { container, store } = props;
   Vue.observable(store);
   instance = new Vue({
     router,
     store,
-    render: h => h(App)
+    render: (h) => h(App),
   }).$mount(container ? container.querySelector("#app") : "#app");
 }
 
@@ -36,10 +34,10 @@ if (!window.__POWERED_BY_QIANKUN__) {
 }
 
 export async function bootstrap() {}
-export async function mount(props) {
+export async function mount(props: unknown): Promise<void> {
   render(props);
 }
-export async function unmount() {
+export async function unmount(): Promise<void> {
   instance.$destroy();
   instance.$el.innerHTML = "";
   instance = null;

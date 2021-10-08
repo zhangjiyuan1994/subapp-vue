@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <h1>WELCOME</h1>
-  </div>
+  <div>123</div>
 </template>
 
-<script>
-export default {};
+<script lang="ts">
+import { Vue } from "vue-property-decorator";
+export default class Views extends Vue {}
 </script>
-<style lang="sass" scoped></style>
+
+<style></style>

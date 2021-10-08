@@ -1,9 +1,9 @@
 const packageName = require("./package.json").name;
-
 module.exports = {
-  assetsDir: "./",
+  lintOnSave: false,
   outputDir: `../../dist/${packageName}`,
-  publicPath: process.env.NODE_ENV === "production" ? `/${packageName}` : `/`,
+  publicPath: `./`,
+  // publicPath: process.env.NODE_ENV === "production" ? `/${packageName}` : `/`,
   configureWebpack: {
     output: {
       library: `${packageName}`,
@@ -12,15 +12,15 @@ module.exports = {
     },
   },
   devServer: {
-    // proxy: {
-    //   '/wlh': {
-    //     target: "http://127.0.0.1:3000",
-    //     ws: true,
-    //     changeOrigin: true,
-    //     secure: false
-    //   }
-    // },
     port: process.env.VUE_APP_PORT,
+    proxy: {
+      "/monitor-app/api/": {
+        target: "http://127.0.0.1:9000/",
+        ws: true,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
     headers: {
       "Access-Control-Allow-Origin": "*", // 主应用获取子应用时跨域响应头
     },

@@ -1,4 +1,4 @@
-# demo
+# subapp-3d
 
 ## Project setup
 ```
